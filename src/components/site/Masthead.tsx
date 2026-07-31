@@ -5,31 +5,13 @@ import { NAV, PERSON } from "./data";
 import { ThemeToggle } from "./ThemeToggle";
 
 export function Masthead() {
-  const [compressed, setCompressed] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [today, setToday] = useState("");
-
-  useEffect(() => {
-    const update = () =>
-      setToday(
-        new Date().toLocaleDateString("en-GB", {
-          weekday: "long",
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        }),
-      );
-    update();
-    const id = setInterval(update, 60_000);
-    return () => clearInterval(id);
-  }, []);
 
   useEffect(() => {
     const onScroll = () => {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       setProgress(max > 0 ? window.scrollY / max : 0);
-      setCompressed(window.scrollY > 80);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -43,36 +25,12 @@ export function Masthead() {
         style={{ width: `${progress * 100}%` }}
         aria-hidden
       />
-      <div
-        className="overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
-        style={{ maxHeight: compressed ? 0 : 200, opacity: compressed ? 0 : 1 }}
-      >
-        <div className="mx-auto max-w-6xl px-5">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border py-2 text-[11px] tracking-[0.14em] text-muted-foreground uppercase font-sans">
-            <span>{today}</span>
-            <span className="hidden sm:inline">Est. {PERSON.since}</span>
-            <span className="italic normal-case tracking-normal font-serif">
-              Building digital experiences since {PERSON.since}
-            </span>
-          </div>
-          <h1 className="py-5 text-center font-display text-3xl font-black tracking-[0.06em] uppercase sm:text-5xl lg:text-6xl">
-            {PERSON.paper}
-          </h1>
-        </div>
-      </div>
-
       <div className="mx-auto max-w-6xl px-5">
-        <nav
-          aria-label="Sections"
-          className="flex items-center justify-center gap-x-6 gap-y-1 border-t border-border py-3 transition-all duration-300"
-          style={compressed ? { paddingTop: 8, paddingBottom: 8 } : undefined}
-        >
-          {compressed && (
-            <span className="mr-auto hidden font-display text-base font-black uppercase tracking-[0.12em] sm:inline">
-              {PERSON.name}
-            </span>
-          )}
-          <ul className="hidden flex-wrap items-center justify-center gap-x-6 gap-y-1 md:flex">
+        <nav aria-label="Sections" className="flex items-center gap-x-6 py-3">
+          <span className="mr-auto truncate font-display text-base font-black uppercase tracking-[0.12em]">
+            {PERSON.name}
+          </span>
+          <ul className="hidden flex-wrap items-center justify-center gap-x-6 md:flex">
             {NAV.map((item) => (
               <li key={item.href}>
                 <a
@@ -84,7 +42,7 @@ export function Masthead() {
               </li>
             ))}
           </ul>
-          <div className="ml-auto flex items-center gap-2 md:ml-0">
+          <div className="ml-4 flex shrink-0 items-center gap-2">
             <ThemeToggle />
             <button
               type="button"
@@ -97,6 +55,14 @@ export function Masthead() {
             </button>
           </div>
         </nav>
+      </div>
+
+      <div className="hidden border-b border-border md:block">
+        <div className="mx-auto max-w-6xl px-5 py-5 text-center">
+          <p className="font-display text-4xl font-black uppercase tracking-[0.06em] lg:text-5xl">
+            {PERSON.name}
+          </p>
+        </div>
       </div>
 
       <AnimatePresence>

@@ -22,7 +22,7 @@ export function About() {
         >
           <h2
             id="about-title"
-            className="font-display text-3xl font-black uppercase tracking-[0.05em] sm:text-4xl"
+            className="font-display text-3xl font-black uppercase tracking-wider sm:text-4xl"
           >
             About Me
           </h2>
@@ -30,7 +30,7 @@ export function About() {
         </motion.div>
 
         <div className="grid gap-10 lg:grid-cols-[1fr_18rem]">
-          <motion.div variants={fadeUp} className="lg:columns-2 lg:gap-10 [&>*]:break-inside-avoid">
+          <motion.div variants={fadeUp} className="lg:columns-2 lg:gap-10 `*:break-inside-avoid`">
             <p className="dropcap text-[1.0625rem] leading-[1.75]">
               I am a versatile Full-Stack Developer with {PERSON.experience.toLowerCase()} of
               professional experience specializing in the MERN Stack, Next.js, Shopify Development

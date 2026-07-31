@@ -8,6 +8,7 @@ import { Experience } from "@/components/site/Experience";
 import { Projects } from "@/components/site/Projects";
 import { Contact } from "@/components/site/Contact";
 import { EASE } from "@/components/site/motion";
+import Compare from "@/components/site/Compare";
 
 const TITLE = "Ahsan Bashir — Full-Stack & Shopify Developer";
 const DESC =
@@ -115,6 +116,7 @@ function Index() {
         <main>
           <Hero />
           <About />
+          <Compare/>
           <Skills />
           <Experience />
           <Projects />

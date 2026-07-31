@@ -9,7 +9,7 @@ export function Skills() {
     <section id="skills" className="border-b border-ink/80" aria-labelledby="skills-title">
       <div className="group overflow-hidden border-b border-ink bg-ink py-2.5">
         <div
-          className="flex w-max gap-10 whitespace-nowrap group-hover:[animation-play-state:paused]"
+          className="flex w-max gap-10 whitespace-nowrap `group-hover:paused`"
           style={{ animation: "ticker-scroll 48s linear infinite" }}
         >
           {items.map((s, i) => (
@@ -36,7 +36,7 @@ export function Skills() {
         >
           <h2
             id="skills-title"
-            className="font-display text-3xl font-black uppercase tracking-[0.05em] sm:text-4xl"
+            className="font-display text-3xl font-black uppercase tracking-wider sm:text-4xl"
           >
             Core Competencies
           </h2>

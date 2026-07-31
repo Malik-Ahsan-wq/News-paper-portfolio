@@ -3,7 +3,10 @@ import { motion } from "motion/react";
 import { Mail, Linkedin, MapPin, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 import { PERSON } from "./data";
+import { sendContactEmail, type ContactPayload } from "@/lib/send-contact-email";
 import { fadeUp, stagger, viewportOnce } from "./motion";
+
+type SendStatus = "idle" | "sending" | "sent";
 
 const LISTINGS = [
   { icon: Mail, label: "Email", value: PERSON.email, href: `mailto:${PERSON.email}` },
@@ -23,12 +26,29 @@ const LISTINGS = [
 ];
 
 export function Contact() {
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<SendStatus>("idle");
+  const [form, setForm] = useState<ContactPayload>({ name: "", email: "", message: "" });
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSent(true);
-    toast.success("Message received — I'll reply within two working days.");
+    if (status === "sending") return;
+
+    setStatus("sending");
+    try {
+      const result = await sendContactEmail({ data: form });
+      if (!result.ok) {
+        setStatus("idle");
+        toast.error(result.error);
+        return;
+      }
+      setForm({ name: "", email: "", message: "" });
+      setStatus("sent");
+      toast.success("Message sent — I'll reply within two working days.");
+    } catch (error) {
+      console.error(error);
+      setStatus("idle");
+      toast.error("Something went wrong. Please try again later.");
+    }
   };
 
   return (
@@ -46,7 +66,7 @@ export function Contact() {
         >
           <h2
             id="contact-title"
-            className="font-display text-3xl font-black uppercase tracking-[0.05em] sm:text-4xl"
+            className="font-display text-3xl font-black uppercase tracking-wider sm:text-4xl"
           >
             Get in Touch
           </h2>
@@ -70,7 +90,10 @@ export function Contact() {
                   name="name"
                   required
                   autoComplete="name"
-                  className="mt-1.5 w-full border-b border-ink bg-transparent py-2 font-serif text-base outline-none focus:border-primary"
+                  value={form.name}
+                  onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                  disabled={status === "sending"}
+                  className="mt-1.5 w-full border-b border-ink bg-transparent py-2 font-serif text-base outline-none focus:border-primary disabled:opacity-60"
                 />
               </div>
               <div>
@@ -83,7 +106,10 @@ export function Contact() {
                   type="email"
                   required
                   autoComplete="email"
-                  className="mt-1.5 w-full border-b border-ink bg-transparent py-2 font-serif text-base outline-none focus:border-primary"
+                  value={form.email}
+                  onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                  disabled={status === "sending"}
+                  className="mt-1.5 w-full border-b border-ink bg-transparent py-2 font-serif text-base outline-none focus:border-primary disabled:opacity-60"
                 />
               </div>
               <div>
@@ -95,14 +121,22 @@ export function Contact() {
                   name="message"
                   rows={5}
                   required
-                  className="mt-1.5 w-full resize-none border-b border-ink bg-transparent py-2 font-serif text-base outline-none focus:border-primary"
+                  value={form.message}
+                  onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
+                  disabled={status === "sending"}
+                  className="mt-1.5 w-full resize-none border-b border-ink bg-transparent py-2 font-serif text-base outline-none focus:border-primary disabled:opacity-60"
                 />
               </div>
               <button
                 type="submit"
-                className="eyebrow w-full border border-ink bg-ink px-6 py-3 text-paper transition-colors hover:border-primary hover:bg-primary"
+                disabled={status === "sending"}
+                className="eyebrow w-full border border-ink bg-ink px-6 py-3 text-paper transition-colors hover:border-primary hover:bg-primary disabled:cursor-not-allowed disabled:opacity-70"
               >
-                {sent ? "Sent — thank you" : "Send message"}
+                {status === "sending"
+                  ? "Sending…"
+                  : status === "sent"
+                    ? "Sent — thank you"
+                    : "Send message"}
               </button>
             </div>
           </motion.form>
@@ -114,12 +148,12 @@ export function Contact() {
                 href={l.href}
                 target={l.href.startsWith("http") ? "_blank" : undefined}
                 rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                className="group flex items-center gap-3 border border-border bg-card p-4 transition-[transform,border-color,box-shadow] duration-[250ms] hover:-translate-y-1 hover:border-ink hover:shadow-paper"
+                className="group flex items-center gap-3 border border-border bg-card p-4 transition-[transform,border-color,box-shadow] duration-250 hover:-translate-y-1 hover:border-ink hover:shadow-paper"
               >
                 <l.icon className="size-5 shrink-0 text-primary" aria-hidden />
                 <span className="min-w-0">
                   <span className="eyebrow block text-muted-foreground">{l.label}</span>
-                  <span className="break-words text-[15px]">{l.value}</span>
+                  <span className="wrap-break-words text-[15px]">{l.value}</span>
                 </span>
               </a>
             ))}
@@ -136,8 +170,8 @@ export function Contact() {
             Printed on the open web, in {PERSON.city}.
           </p>
         </div>
-        <div className="h-[3px] bg-ink" />
-        <div className="mt-[3px] h-px bg-ink" />
+        <div className="h-0.75 bg-ink" />
+        <div className="mt-0.75 h-px bg-ink" />
       </footer>
     </section>
   );
