@@ -13,6 +13,11 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
 
+const THEME_BOOTSTRAP = `(function(){try{var t=localStorage.getItem("theme");var d=t?t==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;if(d)document.documentElement.classList.add("dark");}catch(e){}})();`;
+
+const SITE_TITLE = "Ahsan Bashir — Full-Stack & Shopify Developer";
+const SITE_DESC =
+  "Ahsan Bashir, a Full-Stack & Shopify Developer from Faisalabad, Pakistan specializing in MERN stack, Next.js, Shopify stores, REST APIs and Canva design.";
 
 function NotFoundComponent() {
   return (
@@ -79,12 +84,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "The Elias Hart Times" },
-      { name: "description", content: "An editorial portfolio of a full-stack developer." },
-      { name: "author", content: "Elias Hart" },
-      { property: "og:site_name", content: "The Elias Hart Times" },
-      { property: "og:type", content: "website" },
+      { title: SITE_TITLE },
+      { name: "description", content: SITE_DESC },
+      { name: "author", content: "Ahsan Bashir" },
+      { name: "robots", content: "index, follow" },
+      { name: "theme-color", media: "(prefers-color-scheme: light)", content: "#F8F5F0" },
+      { name: "theme-color", media: "(prefers-color-scheme: dark)", content: "#1d1b18" },
+      { property: "og:site_name", content: "Ahsan Bashir" },
+      { property: "og:title", content: SITE_TITLE },
+      { property: "og:description", content: SITE_DESC },
+      { property: "og:type", content: "profile" },
+      { property: "og:locale", content: "en_US" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: SITE_TITLE },
+      { name: "twitter:description", content: SITE_DESC },
     ],
     links: [
       {
@@ -98,6 +111,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,500;1,700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: SITE_TITLE,
+          description: SITE_DESC,
+        }),
+      },
+      {
+        children: THEME_BOOTSTRAP,
+      },
     ],
   }),
 
@@ -132,4 +159,3 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
-

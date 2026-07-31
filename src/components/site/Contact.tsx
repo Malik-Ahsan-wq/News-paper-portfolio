@@ -1,15 +1,25 @@
 import { useState, type FormEvent } from "react";
 import { motion } from "motion/react";
-import { Github, Linkedin, Mail, MessageCircle } from "lucide-react";
+import { Mail, Linkedin, MapPin, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 import { PERSON } from "./data";
 import { fadeUp, stagger, viewportOnce } from "./motion";
 
 const LISTINGS = [
   { icon: Mail, label: "Email", value: PERSON.email, href: `mailto:${PERSON.email}` },
-  { icon: Linkedin, label: "LinkedIn", value: "/in/eliashart", href: "https://linkedin.com" },
-  { icon: Github, label: "GitHub", value: "@eliashart", href: "https://github.com" },
-  { icon: MessageCircle, label: "WhatsApp", value: "+351 900 000 000", href: "https://wa.me/351900000000" },
+  {
+    icon: MessageCircle,
+    label: "WhatsApp",
+    value: PERSON.phone,
+    href: `https://wa.me/${PERSON.whatsapp}`,
+  },
+  { icon: Linkedin, label: "LinkedIn", value: "Ahsan Bashir", href: PERSON.linkedin },
+  {
+    icon: MapPin,
+    label: "Location",
+    value: PERSON.city,
+    href: "https://www.google.com/maps/place/Faisalabad,+Pakistan",
+  },
 ];
 
 export function Contact() {
@@ -18,7 +28,7 @@ export function Contact() {
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSent(true);
-    toast.success("Letter received — I'll reply within two working days.");
+    toast.success("Message received — I'll reply within two working days.");
   };
 
   return (
@@ -30,11 +40,17 @@ export function Contact() {
         viewport={viewportOnce}
         className="mx-auto max-w-6xl px-5 py-14"
       >
-        <motion.div variants={fadeUp} className="mb-8 flex items-baseline justify-between border-b border-ink pb-2">
-          <h2 id="contact-title" className="font-display text-3xl font-black uppercase tracking-[0.05em] sm:text-4xl">
-            Classifieds
+        <motion.div
+          variants={fadeUp}
+          className="mb-8 flex items-baseline justify-between border-b border-ink pb-2"
+        >
+          <h2
+            id="contact-title"
+            className="font-display text-3xl font-black uppercase tracking-[0.05em] sm:text-4xl"
+          >
+            Get in Touch
           </h2>
-          <span className="eyebrow text-muted-foreground">Contact the editor</span>
+          <span className="eyebrow text-muted-foreground">Contact the developer</span>
         </motion.div>
 
         <div className="grid gap-8 lg:grid-cols-[1.2fr_1fr]">
@@ -43,7 +59,7 @@ export function Contact() {
             onSubmit={onSubmit}
             className="border-2 border-ink bg-card p-6 shadow-paper"
           >
-            <p className="eyebrow border-b border-border pb-2 text-primary">Place your notice</p>
+            <p className="eyebrow border-b border-border pb-2 text-primary">Start a project</p>
             <div className="mt-5 space-y-5">
               <div>
                 <label htmlFor="name" className="eyebrow block text-muted-foreground">
@@ -53,6 +69,7 @@ export function Contact() {
                   id="name"
                   name="name"
                   required
+                  autoComplete="name"
                   className="mt-1.5 w-full border-b border-ink bg-transparent py-2 font-serif text-base outline-none focus:border-primary"
                 />
               </div>
@@ -65,6 +82,7 @@ export function Contact() {
                   name="email"
                   type="email"
                   required
+                  autoComplete="email"
                   className="mt-1.5 w-full border-b border-ink bg-transparent py-2 font-serif text-base outline-none focus:border-primary"
                 />
               </div>
@@ -84,7 +102,7 @@ export function Contact() {
                 type="submit"
                 className="eyebrow w-full border border-ink bg-ink px-6 py-3 text-paper transition-colors hover:border-primary hover:bg-primary"
               >
-                {sent ? "Sent — thank you" : "Submit letter"}
+                {sent ? "Sent — thank you" : "Send message"}
               </button>
             </div>
           </motion.form>
@@ -94,12 +112,14 @@ export function Contact() {
               <a
                 key={l.label}
                 href={l.href}
+                target={l.href.startsWith("http") ? "_blank" : undefined}
+                rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
                 className="group flex items-center gap-3 border border-border bg-card p-4 transition-[transform,border-color,box-shadow] duration-[250ms] hover:-translate-y-1 hover:border-ink hover:shadow-paper"
               >
-                <l.icon className="size-5 text-primary" aria-hidden />
-                <span>
+                <l.icon className="size-5 shrink-0 text-primary" aria-hidden />
+                <span className="min-w-0">
                   <span className="eyebrow block text-muted-foreground">{l.label}</span>
-                  <span className="text-[15px]">{l.value}</span>
+                  <span className="break-words text-[15px]">{l.value}</span>
                 </span>
               </a>
             ))}

@@ -2,6 +2,8 @@
 @source "../src";
 @import "tw-animate-css";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme inline {
   --radius-sm: 2px;
   --radius-md: 2px;
@@ -34,11 +36,12 @@
   --font-display: "Playfair Display", Georgia, serif;
   --font-serif: "Source Serif 4", Georgia, serif;
   --font-sans: "Inter", system-ui, sans-serif;
-  --shadow-paper: 0 1px 2px rgb(26 26 26 / 0.06), 0 8px 24px -12px rgb(26 26 26 / 0.18);
-  --shadow-paper-lift: 0 2px 4px rgb(26 26 26 / 0.08), 0 22px 44px -18px rgb(26 26 26 / 0.28);
+  --shadow-paper: var(--shadow-paper-base);
+  --shadow-paper-lift: var(--shadow-paper-lift-base);
 }
 
 :root {
+  color-scheme: light;
   --radius: 2px;
   --background: oklch(0.966 0.011 85.9);
   --paper: oklch(0.966 0.011 85.9);
@@ -58,6 +61,32 @@
   --gold: oklch(0.73 0.09 85);
   --destructive: oklch(0.45 0.19 27);
   --border: oklch(0.84 0.014 80);
+  --shadow-paper-base: 0 1px 2px rgb(26 26 26 / 0.06), 0 8px 24px -12px rgb(26 26 26 / 0.18);
+  --shadow-paper-lift-base: 0 2px 4px rgb(26 26 26 / 0.08), 0 22px 44px -18px rgb(26 26 26 / 0.28);
+}
+
+.dark {
+  color-scheme: dark;
+  --background: oklch(0.17 0.012 60);
+  --paper: oklch(0.17 0.012 60);
+  --paper-alt: oklch(0.2 0.014 60);
+  --foreground: oklch(0.94 0.008 80);
+  --ink: oklch(0.94 0.008 80);
+  --ink-soft: oklch(0.72 0.01 70);
+  --card: oklch(0.215 0.015 60);
+  --primary: oklch(0.68 0.15 27.5);
+  --primary-foreground: oklch(0.17 0.012 60);
+  --secondary: oklch(0.26 0.014 60);
+  --secondary-foreground: oklch(0.94 0.008 80);
+  --muted: oklch(0.26 0.014 60);
+  --muted-foreground: oklch(0.7 0.01 70);
+  --accent: oklch(0.68 0.15 27.5);
+  --accent-foreground: oklch(0.17 0.012 60);
+  --gold: oklch(0.81 0.1 85);
+  --destructive: oklch(0.62 0.19 27);
+  --border: oklch(0.32 0.015 65);
+  --shadow-paper-base: 0 1px 2px rgb(0 0 0 / 0.5), 0 8px 24px -12px rgb(0 0 0 / 0.65);
+  --shadow-paper-lift-base: 0 2px 4px rgb(0 0 0 / 0.5), 0 22px 44px -18px rgb(0 0 0 / 0.75);
 }
 
 @layer base {
@@ -65,11 +94,17 @@
     border-color: var(--border);
   }
 
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
   body {
     background-color: var(--paper);
     color: var(--ink);
     font-family: var(--font-serif);
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
 
   ::selection {
@@ -152,5 +187,14 @@
   50%,
   100% {
     opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

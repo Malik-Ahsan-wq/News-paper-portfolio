@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { SKILL_GROUPS, TICKER } from "./data";
+import { SKILL_GROUPS, SOFT_SKILLS, TICKER } from "./data";
 import { fadeUp, stagger, viewportOnce } from "./motion";
 
 export function Skills() {
@@ -10,7 +10,7 @@ export function Skills() {
       <div className="group overflow-hidden border-b border-ink bg-ink py-2.5">
         <div
           className="flex w-max gap-10 whitespace-nowrap group-hover:[animation-play-state:paused]"
-          style={{ animation: "ticker-scroll 42s linear infinite" }}
+          style={{ animation: "ticker-scroll 48s linear infinite" }}
         >
           {items.map((s, i) => (
             <span key={`${s.name}-${i}`} className="eyebrow flex items-center gap-2 text-paper">
@@ -30,14 +30,20 @@ export function Skills() {
         viewport={viewportOnce}
         className="mx-auto max-w-6xl px-5 py-14"
       >
-        <motion.div variants={fadeUp} className="mb-8 flex items-baseline justify-between border-b border-ink pb-2">
-          <h2 id="skills-title" className="font-display text-3xl font-black uppercase tracking-[0.05em] sm:text-4xl">
-            The Exchange
+        <motion.div
+          variants={fadeUp}
+          className="mb-8 flex items-baseline justify-between border-b border-ink pb-2"
+        >
+          <h2
+            id="skills-title"
+            className="font-display text-3xl font-black uppercase tracking-[0.05em] sm:text-4xl"
+          >
+            Core Competencies
           </h2>
           <span className="eyebrow text-muted-foreground">Markets · Daily close</span>
         </motion.div>
 
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {SKILL_GROUPS.map((group) => (
             <motion.div key={group.title} variants={fadeUp} className="border-t-2 border-ink pt-4">
               <h3 className="font-display text-xl font-bold">{group.title}</h3>
@@ -51,6 +57,20 @@ export function Skills() {
             </motion.div>
           ))}
         </div>
+
+        <motion.div variants={fadeUp} className="mt-10 border-t-2 border-ink pt-4">
+          <h3 className="font-display text-xl font-bold">Soft Skills</h3>
+          <ul className="mt-3 flex flex-wrap gap-2">
+            {SOFT_SKILLS.map((skill) => (
+              <li
+                key={skill}
+                className="eyebrow border border-border bg-card px-3 py-2 text-ink transition-colors duration-300 hover:border-primary hover:text-primary"
+              >
+                {skill}
+              </li>
+            ))}
+          </ul>
+        </motion.div>
       </motion.div>
     </section>
   );
