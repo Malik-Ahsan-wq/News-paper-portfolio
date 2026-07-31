@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { PERSON, STATS, heroPortrait } from "./data";
 import { fadeUp, stagger } from "./motion";
 import { useTypewriter } from "./useTypewriter";
+import { CountUp } from "./CountUp";
 
 const HEADLINE = "Full-Stack & Shopify Developer";
 
@@ -65,7 +66,14 @@ export function Hero() {
         </div>
 
         <motion.figure variants={fadeUp} className="self-start">
-          <div className="group border border-ink p-2 shadow-paper">
+          <div className="group relative border border-ink p-2 shadow-paper">
+            <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+              <div
+                aria-hidden
+                className="absolute -inset-1 border-2 border-dashed border-primary/70"
+                style={{ animation: "border-spin 12s linear infinite" }}
+              />
+            </div>
             <img
               src={heroPortrait}
               alt={`${PERSON.name} at his desk`}
@@ -73,6 +81,11 @@ export function Hero() {
               height={912}
               className="w-full grayscale transition-[filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:grayscale-0"
             />
+            <div className="pointer-events-none absolute inset-x-2 bottom-2 bg-ink/85 px-3 py-2 text-center backdrop-blur-[2px]">
+              <p className="font-display text-lg font-black uppercase tracking-[0.1em] text-paper sm:text-xl">
+                {PERSON.name}
+              </p>
+            </div>
           </div>
           <figcaption className="mt-3 border-t border-border pt-2 text-[13px] italic text-muted-foreground">
             Fig 1. — {PERSON.name} at work, {PERSON.city.split(",")[0]}, 2026.
@@ -94,7 +107,7 @@ export function Hero() {
               className="px-2 py-5 text-center sm:py-6"
             >
               <p className="font-display text-3xl font-black text-primary sm:text-4xl">
-                {stat.value}
+                <CountUp to={stat.value} suffix={stat.suffix} />
               </p>
               <p className="eyebrow mt-1 text-muted-foreground">{stat.label}</p>
             </motion.div>

@@ -266,8 +266,8 @@ export const PROJECTS = [
 ];
 
 export const STATS = [
-  { value: "2+", label: "Years Experience" },
-  { value: "15+", label: "Projects Shipped" },
-  { value: "10+", label: "E-commerce Stores" },
-  { value: "25+", label: "APIs Integrated" },
+  { value: 2, suffix: "+", label: "Years Experience" },
+  { value: 15, suffix: "+", label: "Projects Shipped" },
+  { value: 10, suffix: "+", label: "E-commerce Stores" },
+  { value: 25, suffix: "+", label: "APIs Integrated" },
 ];
