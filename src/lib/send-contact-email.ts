@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { renderContactEmail } from "./email-template";
 
 export type ContactPayload = {
   name: string;
@@ -30,8 +31,9 @@ export const sendContactEmail = createServerFn({ method: "POST" })
         from,
         to: [to],
         reply_to: data.email,
-        subject: `New portfolio message from ${data.name}`,
-        text: `Name: ${data.name}\nEmail: ${data.email}\n\n${data.message}`,
+        subject: `New letter from ${data.name} — The Ahsan Bashir Times`,
+        text: `NEW MESSAGE — The Ahsan Bashir Times\n\nLetter From: ${data.name}\nReply To: ${data.email}\n\n${data.message}\n\n— Ahsan Bashir, Full-Stack & Shopify Developer`,
+        html: renderContactEmail(data),
       }),
     });
 

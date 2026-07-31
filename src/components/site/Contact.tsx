@@ -4,6 +4,7 @@ import { Mail, Linkedin, MapPin, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 import { PERSON } from "./data";
 import { sendContactEmail, type ContactPayload } from "@/lib/send-contact-email";
+import { Logo } from "./Logo";
 import { fadeUp, stagger, viewportOnce } from "./motion";
 
 type SendStatus = "idle" | "sending" | "sent";
@@ -163,9 +164,12 @@ export function Contact() {
 
       <footer className="border-t border-ink">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-5 py-6">
-          <p className="font-display text-sm uppercase tracking-[0.14em]">
-            {PERSON.paper} © 2026 — All Rights Reserved
-          </p>
+          <div className="flex items-center gap-3">
+            <Logo className="size-9 shrink-0" />
+            <p className="font-display text-sm uppercase tracking-[0.14em]">
+              {PERSON.paper} © 2026 — All Rights Reserved
+            </p>
+          </div>
           <p className="text-[13px] italic text-muted-foreground">
             Printed on the open web, in {PERSON.city}.
           </p>

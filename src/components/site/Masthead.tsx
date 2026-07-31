@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { NAV, PERSON } from "./data";
 import { ThemeToggle } from "./ThemeToggle";
+import { Logo } from "./Logo";
 
 export function Masthead() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -27,9 +28,12 @@ export function Masthead() {
       />
       <div className="mx-auto max-w-6xl px-5">
         <nav aria-label="Sections" className="flex items-center gap-x-6 py-3">
-          <span className="mr-auto truncate font-display text-base font-black uppercase tracking-[0.12em]">
-            {PERSON.name}
-          </span>
+          <a href="#top" className="mr-auto flex items-center gap-2.5">
+            <Logo className="size-8 shrink-0" />
+            <span className="hidden font-display text-base font-black uppercase tracking-[0.12em] min-[420px]:inline">
+              {PERSON.name}
+            </span>
+          </a>
           <ul className="hidden flex-wrap items-center justify-center gap-x-6 md:flex">
             {NAV.map((item) => (
               <li key={item.href}>

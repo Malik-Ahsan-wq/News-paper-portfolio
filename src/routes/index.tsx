@@ -49,7 +49,7 @@ export const Route = createFileRoute("/")({
           email: "mailto:mahsanraza3222@gmail.com",
           telephone: "+92-327-6227156",
           url: "/",
-          image: "/favicon.ico",
+          image: "/favicon.svg",
           address: {
             "@type": "PostalAddress",
             addressLocality: "Faisalabad",
@@ -116,7 +116,7 @@ function Index() {
         <main>
           <Hero />
           <About />
-          <Compare/>
+          <Compare />
           <Skills />
           <Experience />
           <Projects />
