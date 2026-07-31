@@ -8,11 +8,13 @@ import { Logo } from "./Logo";
 export function Masthead() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       setProgress(max > 0 ? window.scrollY / max : 0);
+      setScrolled(window.scrollY > 80);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -61,11 +63,16 @@ export function Masthead() {
         </nav>
       </div>
 
-      <div className="hidden border-b border-border md:block">
-        <div className="mx-auto max-w-6xl px-5 py-5 text-center">
-          <p className="font-display text-4xl font-black uppercase tracking-[0.06em] lg:text-5xl">
-            {PERSON.name}
-          </p>
+      <div
+        className="hidden overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] md:block"
+        style={{ maxHeight: scrolled ? 0 : 200, opacity: scrolled ? 0 : 1 }}
+      >
+        <div className="border-b border-border">
+          <div className="mx-auto max-w-6xl px-5 py-5 text-center">
+            <p className="font-display text-4xl font-black uppercase tracking-[0.06em] lg:text-5xl">
+              {PERSON.name}
+            </p>
+          </div>
         </div>
       </div>
 

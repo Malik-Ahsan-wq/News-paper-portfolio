@@ -43,10 +43,7 @@ const OrbitNode = ({
           />
         )}
         {variant === "plus" && (
-          <span
-            className="relative block"
-            style={{ width: size, height: size }}
-          >
+          <span className="relative block" style={{ width: size, height: size }}>
             <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-white/70" />
             <span className="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-white/70" />
           </span>
@@ -111,7 +108,7 @@ const Compare = () => {
         }
       `}</style>
 
-      <div className="relative aspect-square w-72 h-72 sm:w-[26rem] sm:h-[26rem]">
+      <div className="group relative aspect-square w-72 h-72 sm:w-[26rem] sm:h-[26rem]">
         {/* Corner HUD brackets */}
         <CornerBrackets />
 
@@ -178,12 +175,8 @@ const Compare = () => {
 
         {/* Static center photo */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-3/4 h-3/4 rounded-full overflow-hidden ring-4 ring-black grayscale contrast-110">
-            <img
-              src={heroPortrait}
-              alt="Profile photo"
-              className="w-full h-full object-cover"
-            />
+          <div className="w-3/4 h-3/4 rounded-full overflow-hidden ring-4 ring-black grayscale contrast-110 transition-[filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:grayscale-0">
+            <img src={heroPortrait} alt="Profile photo" className="w-full h-full object-cover" />
           </div>
         </div>
       </div>

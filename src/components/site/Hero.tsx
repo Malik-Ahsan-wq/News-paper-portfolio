@@ -65,13 +65,13 @@ export function Hero() {
         </div>
 
         <motion.figure variants={fadeUp} className="self-start">
-          <div className="border border-ink p-2 shadow-paper">
+          <div className="group border border-ink p-2 shadow-paper">
             <img
               src={heroPortrait}
               alt={`${PERSON.name} at his desk`}
               width={1200}
               height={912}
-              className="w-full grayscale"
+              className="w-full grayscale transition-[filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:grayscale-0"
             />
           </div>
           <figcaption className="mt-3 border-t border-border pt-2 text-[13px] italic text-muted-foreground">
