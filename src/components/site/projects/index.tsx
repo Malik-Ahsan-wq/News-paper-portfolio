@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { PROJECTS } from "../data";
+import { ArrowRight } from "lucide-react";
+import { PERSON, PROJECTS } from "../data";
 import { fadeUp, stagger, viewportOnce } from "../motion";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 import { useProjectsQuery } from "@/hooks/useProjects";
@@ -29,9 +30,9 @@ function toUiProject(db: DbProject): Project {
 function CardSkeleton() {
   return (
     <div className="animate-pulse overflow-hidden rounded-2xl border border-border bg-card shadow-paper">
-      <div className="aspect-[4/3] bg-muted" />
-      <div className="space-y-3 p-5">
-        <div className="h-5 w-2/3 rounded bg-muted" />
+      <div className="aspect-[16/10] bg-muted" />
+      <div className="space-y-3 p-6">
+        <div className="h-6 w-2/3 rounded bg-muted" />
         <div className="h-3 w-full rounded bg-muted" />
         <div className="h-3 w-4/5 rounded bg-muted" />
         <div className="flex gap-2 pt-2">
@@ -68,11 +69,11 @@ export function Projects({ projects: staticProjects = PROJECTS }: ProjectsProps)
         initial="hidden"
         whileInView="show"
         viewport={viewportOnce}
-        className="relative mx-auto max-w-6xl px-5 py-14"
+        className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8"
       >
         <motion.div
           variants={fadeUp}
-          className="mb-10 flex flex-wrap items-end justify-between gap-4"
+          className="mb-12 flex flex-wrap items-end justify-between gap-4"
         >
           <div>
             <span className="eyebrow text-primary">Selected Work</span>
@@ -89,17 +90,33 @@ export function Projects({ projects: staticProjects = PROJECTS }: ProjectsProps)
           </p>
         </motion.div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
           {isLoading && isSupabaseConfigured
-            ? Array.from({ length: 3 }).map((_, i) => <CardSkeleton key={i} />)
-            : projects.map((project) => (
-                <ProjectCard
-                  key={project.name}
-                  project={project}
-                  onImageClick={(imageIndex) => setActive({ project, index: imageIndex })}
-                />
-              ))}
+            ? Array.from({ length: 4 }).map((_, i) => <CardSkeleton key={i} />)
+            : projects
+                .slice(0, 4)
+                .map((project) => (
+                  <ProjectCard
+                    key={project.name}
+                    project={project}
+                    onImageClick={(imageIndex) => setActive({ project, index: imageIndex })}
+                  />
+                ))}
         </div>
+
+        {!isLoading && projects.length > 4 && (
+          <motion.div variants={fadeUp} className="mt-12 flex justify-center">
+            <a
+              href={PERSON.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-ink bg-ink px-7 py-3 text-sm font-semibold text-paper transition-colors duration-300 hover:border-primary hover:bg-primary"
+            >
+              View all projects
+              <ArrowRight className="size-4" />
+            </a>
+          </motion.div>
+        )}
       </motion.div>
 
       <AnimatePresence>

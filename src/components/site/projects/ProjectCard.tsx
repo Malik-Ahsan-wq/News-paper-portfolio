@@ -19,10 +19,10 @@ export function ProjectCard({ project, onImageClick }: ProjectCardProps) {
     >
       <ImagePreview project={project} onImageClick={onImageClick} />
 
-      <div className="flex flex-1 flex-col gap-4 p-5 sm:p-6">
+      <div className="flex flex-1 flex-col gap-5 p-6 sm:p-7">
         <div>
           <div className="flex items-center gap-2">
-            <h3 className="font-display text-xl font-black leading-tight text-ink">
+            <h3 className="font-display text-2xl font-black leading-tight text-ink">
               {project.name}
             </h3>
             {project.featured && (
@@ -32,30 +32,30 @@ export function ProjectCard({ project, onImageClick }: ProjectCardProps) {
               </span>
             )}
           </div>
-          <p className="mt-2 text-[15px] leading-relaxed text-ink-soft">{project.description}</p>
+          <p className="mt-3 text-[15px] leading-relaxed text-ink-soft">{project.description}</p>
         </div>
 
         <ul className="flex flex-wrap gap-2">
           {project.tech.map((tech) => (
             <li
               key={tech}
-              className="rounded-full border border-border bg-muted px-2.5 py-1 text-[11px] font-medium tracking-wide text-muted-foreground transition-colors duration-300 group-hover:border-primary/30 group-hover:text-ink"
+              className="rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium tracking-wide text-muted-foreground transition-colors duration-300 group-hover:border-primary/30 group-hover:text-ink"
             >
               {tech}
             </li>
           ))}
         </ul>
 
-        <div className="mt-auto flex flex-wrap items-center gap-3 border-t border-border pt-4">
+        <div className="mt-auto flex flex-wrap items-center gap-3 border-t border-border pt-5">
           {project.live && (
             <a
               href={project.live}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-xs font-semibold text-paper transition-colors duration-300 hover:bg-primary"
+              className="inline-flex items-center gap-1.5 rounded-full bg-ink px-5 py-2.5 text-[13px] font-semibold text-paper transition-colors duration-300 hover:bg-primary"
             >
               Live Demo
-              <ArrowUpRight className="size-3.5" />
+              <ArrowUpRight className="size-4" />
             </a>
           )}
           {project.github && (
@@ -63,9 +63,9 @@ export function ProjectCard({ project, onImageClick }: ProjectCardProps) {
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-xs font-semibold text-ink transition-colors duration-300 hover:border-primary hover:text-primary"
+              className="inline-flex items-center gap-1.5 rounded-full border border-border px-5 py-2.5 text-[13px] font-semibold text-ink transition-colors duration-300 hover:border-primary hover:text-primary"
             >
-              <FolderGit2 className="size-3.5" />
+              <FolderGit2 className="size-4" />
               GitHub
             </a>
           )}
