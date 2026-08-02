@@ -87,7 +87,7 @@ const CornerBrackets = () => (
 
 const Compare = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-black px-5">
+    <div className="flex min-h-screen items-center justify-center overflow-hidden bg-black px-5">
       <style>{`
         @keyframes spin {
           from { transform: rotate(0deg); }
