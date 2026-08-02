@@ -116,10 +116,10 @@ function Index() {
         <main>
           <Hero />
           <About />
+          <Projects />
           <Compare />
           <Skills />
           <Experience />
-          <Projects />
           <Contact />
         </main>
       </motion.div>
