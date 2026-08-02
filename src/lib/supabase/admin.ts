@@ -1,4 +1,4 @@
-import { getSession, signInWithPassword } from "./auth";
+import { getSession, signInWithPassword, signOut } from "./auth";
 
 /**
  * Hardcoded admin credentials used to gate the admin dashboard UI.
@@ -40,9 +40,19 @@ export function clearAdminAuthenticated(): void {
   window.sessionStorage.removeItem(AUTH_STORAGE_KEY);
 }
 
-/** Ensures a Supabase session exists so DB writes and storage uploads work. */
+/**
+ * Ensures a Supabase session for the admin account exists so DB writes and
+ * storage uploads work. Throws if the admin cannot be authenticated — callers
+ * must treat a failure as "not allowed to log in".
+ */
 export async function ensureSupabaseSession(): Promise<void> {
   const session = await getSession();
-  if (session) return;
+  const currentEmail = session?.user?.email?.toLowerCase();
+  if (session && currentEmail === ADMIN_SUPABASE_EMAIL.toLowerCase()) {
+    return;
+  }
+  if (session) {
+    await signOut();
+  }
   await signInWithPassword(ADMIN_SUPABASE_EMAIL, ADMIN_PASSWORD);
 }

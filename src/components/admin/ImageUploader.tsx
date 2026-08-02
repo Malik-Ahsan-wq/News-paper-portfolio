@@ -60,7 +60,7 @@ export function ImageUploader({ value, onChange, max = 3, disabled }: ImageUploa
                 <img
                   src={url}
                   alt={`Uploaded ${index + 1}`}
-                  className="size-full object-cover"
+                  className="size-full object-contain p-1"
                   loading="lazy"
                 />
                 <button

@@ -57,7 +57,11 @@ export function AdminDashboard({ adminName, onLogout }: AdminDashboardProps) {
   const featuredCount = projects.filter((project) => project.featured).length;
 
   useEffect(() => {
-    void ensureSupabaseSession();
+    void ensureSupabaseSession().catch(() => {
+      toast.error("Your session expired. Please sign in again.");
+      void onLogout();
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleLogout = () => {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { signOut as supabaseSignOut } from "@/lib/supabase/auth";
+import { toFriendlyError } from "@/lib/supabase/errors";
 import {
   ADMIN_AUTH_EVENT,
   ADMIN_USERNAME,
@@ -25,11 +26,15 @@ export function useAdminSession() {
     };
   }, []);
 
-  const login = (username: string, password: string): boolean => {
+  const login = async (username: string, password: string): Promise<boolean> => {
     if (!verifyAdminCredentials(username, password)) return false;
+    try {
+      await ensureSupabaseSession();
+    } catch (error) {
+      throw toFriendlyError(error, "Sign-in failed. Please try again.");
+    }
     setAdminAuthenticated();
     window.dispatchEvent(new Event(ADMIN_AUTH_EVENT));
-    void ensureSupabaseSession();
     return true;
   };
 

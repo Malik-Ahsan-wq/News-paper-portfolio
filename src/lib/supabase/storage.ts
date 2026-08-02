@@ -1,6 +1,10 @@
 import { SUPABASE_ANON_KEY, SUPABASE_URL, supabase } from "./client";
+import { ensureSupabaseSession } from "./admin";
+import { toFriendlyError } from "./errors";
 
 export const STORAGE_BUCKET = "projects";
+
+const SETUP_SQL_HINT = "Run supabase/setup.sql in your Supabase SQL Editor, then try again.";
 
 export function getPublicImageUrl(path: string): string {
   return `${SUPABASE_URL}/storage/v1/object/public/${STORAGE_BUCKET}/${path}`;
@@ -14,6 +18,19 @@ export function extractStoragePath(publicUrl: string): string | null {
   return null;
 }
 
+function friendlyStorageError(status: number, message: string, code?: string): Error {
+  const lower = message.toLowerCase();
+  if (status === 403 || code === "42501" || lower.includes("row-level security")) {
+    return new Error(`Storage permission denied. ${SETUP_SQL_HINT}`);
+  }
+  if (status === 400 || lower.includes("not found") || lower.includes("bucket")) {
+    return new Error(
+      `Image upload failed: the "${STORAGE_BUCKET}" bucket is missing or misconfigured. ${SETUP_SQL_HINT}`,
+    );
+  }
+  return new Error(`Image upload failed (${status}): ${message}`);
+}
+
 /**
  * Uploads an image to the `projects` bucket and returns its public URL.
  *
@@ -24,6 +41,8 @@ export async function uploadProjectImage(
   file: File,
   onProgress?: (percent: number) => void,
 ): Promise<string> {
+  await ensureSupabaseSession();
+
   const { data } = await supabase.auth.getSession();
   const accessToken = data.session?.access_token;
 
@@ -56,13 +75,20 @@ export async function uploadProjectImage(
         resolve(getPublicImageUrl(path));
       } else {
         let message = `Upload failed (${xhr.status}).`;
+        let code: string | undefined;
         try {
-          const parsed = JSON.parse(xhr.responseText) as { message?: string; error?: string };
+          const parsed = JSON.parse(xhr.responseText) as {
+            message?: string;
+            error?: string;
+            code?: string;
+            statusCode?: string;
+          };
           message = parsed.message || parsed.error || message;
+          code = parsed.code;
         } catch {
           /* keep default message */
         }
-        reject(new Error(message));
+        reject(friendlyStorageError(xhr.status, message, code));
       }
     };
 
@@ -75,5 +101,5 @@ export async function deleteProjectImage(publicUrl: string): Promise<void> {
   const path = extractStoragePath(publicUrl);
   if (!path) return;
   const { error } = await supabase.storage.from(STORAGE_BUCKET).remove([path]);
-  if (error) throw error;
+  if (error) throw toFriendlyError(error, "Failed to delete the image.");
 }

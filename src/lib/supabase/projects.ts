@@ -1,4 +1,5 @@
 import { supabase } from "./client";
+import { toFriendlyError } from "./errors";
 import type { DbProject, ProjectInput } from "./types";
 
 /** Fetches all projects ordered by their manual display order. */
@@ -8,7 +9,7 @@ export async function fetchProjects(): Promise<DbProject[]> {
     .select("*")
     .order("display_order", { ascending: true });
 
-  if (error) throw error;
+  if (error) throw toFriendlyError(error, "Failed to load projects.");
   return (data ?? []) as DbProject[];
 }
 
@@ -20,7 +21,7 @@ export async function getNextDisplayOrder(): Promise<number> {
     .limit(1)
     .maybeSingle();
 
-  if (error) throw error;
+  if (error) throw toFriendlyError(error, "Failed to load projects.");
   return (data?.display_order ?? -1) + 1;
 }
 
@@ -41,7 +42,7 @@ export async function createProject(input: ProjectInput): Promise<DbProject> {
     .select()
     .single();
 
-  if (error) throw error;
+  if (error) throw toFriendlyError(error, "Failed to create the project.");
   return data as DbProject;
 }
 
@@ -62,13 +63,13 @@ export async function updateProject(id: string, input: ProjectInput): Promise<Db
     .select()
     .single();
 
-  if (error) throw error;
+  if (error) throw toFriendlyError(error, "Failed to update the project.");
   return data as DbProject;
 }
 
 export async function deleteProject(id: string): Promise<void> {
   const { error } = await supabase.from("projects").delete().eq("id", id);
-  if (error) throw error;
+  if (error) throw toFriendlyError(error, "Failed to delete the project.");
 }
 
 export async function setProjectDisplayOrder(id: string, displayOrder: number): Promise<void> {
@@ -76,12 +77,12 @@ export async function setProjectDisplayOrder(id: string, displayOrder: number): 
     .from("projects")
     .update({ display_order: displayOrder })
     .eq("id", id);
-  if (error) throw error;
+  if (error) throw toFriendlyError(error, "Failed to reorder projects.");
 }
 
 export async function toggleProjectFeatured(id: string, featured: boolean): Promise<void> {
   const { error } = await supabase.from("projects").update({ featured }).eq("id", id);
-  if (error) throw error;
+  if (error) throw toFriendlyError(error, "Failed to update the project.");
 }
 
 export type ReorderUpdate = { id: string; display_order: number };

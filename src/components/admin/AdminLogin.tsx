@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "motion/react";
-import { ArrowLeft, Lock } from "lucide-react";
+import { ArrowLeft, Loader2, Lock } from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -17,10 +18,11 @@ const loginSchema = z.object({
 type LoginValues = z.infer<typeof loginSchema>;
 
 type AdminLoginProps = {
-  onLogin: (username: string, password: string) => boolean;
+  onLogin: (username: string, password: string) => Promise<boolean>;
 };
 
 export function AdminLogin({ onLogin }: AdminLoginProps) {
+  const [submitting, setSubmitting] = useState(false);
   const {
     register,
     handleSubmit,
@@ -30,12 +32,19 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
     defaultValues: { username: "", password: "" },
   });
 
-  const onSubmit = (values: LoginValues) => {
-    const ok = onLogin(values.username, values.password);
-    if (ok) {
-      toast.success("Welcome back");
-    } else {
-      toast.error("Invalid username or password");
+  const onSubmit = async (values: LoginValues) => {
+    setSubmitting(true);
+    try {
+      const ok = await onLogin(values.username, values.password);
+      if (ok) {
+        toast.success("Welcome back");
+      } else {
+        toast.error("Invalid username or password");
+      }
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Sign-in failed");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -94,8 +103,9 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
               )}
             </div>
 
-            <Button type="submit" className="w-full">
-              Sign in
+            <Button type="submit" className="w-full" disabled={submitting}>
+              {submitting && <Loader2 className="size-4 animate-spin" />}
+              {submitting ? "Signing in…" : "Sign in"}
             </Button>
           </form>
         </div>

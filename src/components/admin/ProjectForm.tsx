@@ -26,10 +26,7 @@ import { TechInput } from "./TechInput";
 
 const projectFormSchema = z.object({
   title: z.string().min(1, "Title is required").max(140, "Keep the title under 140 characters"),
-  slug: z
-    .string()
-    .min(1, "Slug is required")
-    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Use lowercase letters, numbers and hyphens"),
+  slug: z.string().min(1, "Slug is required"),
   description: z
     .string()
     .min(10, "Description needs at least 10 characters")
