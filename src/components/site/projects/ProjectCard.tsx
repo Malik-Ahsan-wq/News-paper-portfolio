@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { ArrowUpRight, FolderGit2 } from "lucide-react";
+import { ArrowUpRight, FolderGit2, Star } from "lucide-react";
 import { fadeUp } from "../motion";
 import { ImagePreview } from "./ImagePreview";
 import type { Project } from "./types";
@@ -21,7 +21,17 @@ export function ProjectCard({ project, onImageClick }: ProjectCardProps) {
 
       <div className="flex flex-1 flex-col gap-4 p-5 sm:p-6">
         <div>
-          <h3 className="font-display text-xl font-black leading-tight text-ink">{project.name}</h3>
+          <div className="flex items-center gap-2">
+            <h3 className="font-display text-xl font-black leading-tight text-ink">
+              {project.name}
+            </h3>
+            {project.featured && (
+              <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-gold/50 bg-gold/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-gold">
+                <Star className="size-3" />
+                Featured
+              </span>
+            )}
+          </div>
           <p className="mt-2 text-[15px] leading-relaxed text-ink-soft">{project.description}</p>
         </div>
 

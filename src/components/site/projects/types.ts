@@ -11,5 +11,6 @@ export type Project = {
   tech: string[];
   live?: string;
   github?: string;
+  featured?: boolean;
   images: ProjectImage[];
 };

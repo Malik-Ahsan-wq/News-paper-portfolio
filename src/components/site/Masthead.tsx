@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Menu, X } from "lucide-react";
+import { Lock, Menu, X } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { NAV } from "./data";
 import { ThemeToggle } from "./ThemeToggle";
 import { Logo } from "./Logo";
@@ -44,6 +45,14 @@ export function Masthead() {
             ))}
           </ul>
           <div className="ml-4 flex shrink-0 items-center gap-2">
+            <Link
+              to="/admin"
+              aria-label="Update projects"
+              title="Update projects"
+              className="inline-flex size-8 items-center justify-center border border-border bg-card text-ink transition-colors hover:border-primary hover:text-primary"
+            >
+              <Lock className="size-4" />
+            </Link>
             <ThemeToggle />
             <button
               type="button"
