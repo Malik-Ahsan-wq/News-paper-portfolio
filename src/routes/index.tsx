@@ -5,7 +5,7 @@ import { Hero } from "@/components/site/Hero";
 import { About } from "@/components/site/About";
 import { Skills } from "@/components/site/Skills";
 import { Experience } from "@/components/site/Experience";
-import { Projects } from "@/components/site/Projects";
+import { Projects } from "@/components/site/projects";
 import { Contact } from "@/components/site/Contact";
 import { EASE } from "@/components/site/motion";
 import Compare from "@/components/site/Compare";

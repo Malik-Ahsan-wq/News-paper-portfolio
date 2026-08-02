@@ -3,6 +3,7 @@ import projectLead from "@/assets/project-lead.jpg";
 import project2 from "@/assets/project-2.jpg";
 import project3 from "@/assets/project-3.jpg";
 import project4 from "@/assets/project-4.jpg";
+import type { Project } from "@/components/site/projects/types";
 
 export const PERSON = {
   name: "Ahsan Bashir",
@@ -195,73 +196,174 @@ export const EDUCATION = [
   },
 ];
 
-export const PROJECTS = [
+export const PROJECTS: Project[] = [
   {
-    lead: true,
-    category: "AI Tools Suite",
-    title: "tools.websolave.com",
-    excerpt:
+    name: "tools.websolave.com",
+    description:
       "A full-stack professional project bundling an AI-SEO Analyzer, AI-BIO Builder and AI-QR Code Generator — built to help teams automate content, SEO and branding.",
-    meta: "React · Node.js · AI APIs",
-    href: "https://tools.websolave.com",
-    image: projectLead,
-    width: 1200,
-    height: 800,
+    tech: ["React", "Node.js", "AI APIs", "Supabase", "Tailwind CSS"],
+    live: "https://tools.websolave.com",
+    github: "https://github.com/ahsanbashir",
+    images: [
+      {
+        src: projectLead,
+        alt: "tools.websolave.com — AI tools suite dashboard",
+        width: 1200,
+        height: 800,
+      },
+      {
+        src: project2,
+        alt: "tools.websolave.com — AI SEO analyzer",
+        width: 800,
+        height: 600,
+      },
+      {
+        src: project3,
+        alt: "tools.websolave.com — AI QR code generator",
+        width: 800,
+        height: 600,
+      },
+    ],
   },
   {
-    category: "Live Chat",
-    title: "livetawk.com",
-    excerpt:
+    name: "livetawk.com",
+    description:
       "A professional live chat system built with the latest full-stack technologies for real-time customer support.",
-    meta: "Next.js · WebSockets · Node.js",
-    href: "https://livetawk.com",
-    image: project2,
-    width: 800,
-    height: 600,
+    tech: ["Next.js", "WebSockets", "Node.js", "MongoDB", "Tailwind CSS"],
+    live: "https://livetawk.com",
+    github: "https://github.com/ahsanbashir",
+    images: [
+      {
+        src: project2,
+        alt: "livetawk.com — live chat inbox",
+        width: 800,
+        height: 600,
+      },
+      {
+        src: project3,
+        alt: "livetawk.com — real-time conversation",
+        width: 800,
+        height: 600,
+      },
+      {
+        src: project4,
+        alt: "livetawk.com — dashboard",
+        width: 800,
+        height: 600,
+      },
+    ],
   },
   {
-    category: "Realtime Chatbot",
-    title: "fetchply.com",
-    excerpt:
+    name: "fetchply.com",
+    description:
       "Real-time chatting system with WhatsApp, Slack, WooCommerce, Instagram and Shopify integrations plus an AI realtime chatbot to run your business automatically.",
-    meta: "Node.js · Integrations · Chatbot",
-    href: "https://fetchply.com",
-    image: project3,
-    width: 800,
-    height: 600,
+    tech: ["Node.js", "Integrations", "Chatbot", "Shopify"],
+    live: "https://fetchply.com",
+    github: "https://github.com/ahsanbashir",
+    images: [
+      {
+        src: project3,
+        alt: "fetchply.com — multi-channel chat",
+        width: 800,
+        height: 600,
+      },
+      {
+        src: project4,
+        alt: "fetchply.com — WhatsApp integration",
+        width: 800,
+        height: 600,
+      },
+      {
+        src: projectLead,
+        alt: "fetchply.com — AI chatbot",
+        width: 1200,
+        height: 800,
+      },
+    ],
   },
   {
-    category: "Social Toolkit",
-    title: "toolv.io",
-    excerpt:
+    name: "toolv.io",
+    description:
       "A full-stack project with all social media app integrations — downloaders, boosters and productivity tools that work perfectly.",
-    meta: "React · Social APIs",
-    href: "https://toolv.io",
-    image: project4,
-    width: 800,
-    height: 600,
+    tech: ["React", "Node.js", "Social APIs", "Redis"],
+    live: "https://toolv.io",
+    github: "https://github.com/ahsanbashir",
+    images: [
+      {
+        src: project4,
+        alt: "toolv.io — social toolkit",
+        width: 800,
+        height: 600,
+      },
+      {
+        src: projectLead,
+        alt: "toolv.io — downloader tool",
+        width: 1200,
+        height: 800,
+      },
+      {
+        src: project2,
+        alt: "toolv.io — productivity tools",
+        width: 800,
+        height: 600,
+      },
+    ],
   },
   {
-    category: "E-commerce Store",
-    title: "Cartify Online E-commerce Store",
-    excerpt:
+    name: "Cartify Online E-commerce Store",
+    description:
       "A professional e-commerce store built with the latest technologies — fast, scalable and conversion-focused.",
-    meta: "Shopify · Next.js · E-commerce",
-    href: "#projects",
-    image: projectLead,
-    width: 800,
-    height: 600,
+    tech: ["Shopify", "Next.js", "React", "Node.js"],
+    live: "https://tools.websolave.com",
+    github: "https://github.com/ahsanbashir",
+    images: [
+      {
+        src: projectLead,
+        alt: "Cartify — storefront",
+        width: 1200,
+        height: 800,
+      },
+      {
+        src: project4,
+        alt: "Cartify — product page",
+        width: 800,
+        height: 600,
+      },
+      {
+        src: project3,
+        alt: "Cartify — cart and checkout",
+        width: 800,
+        height: 600,
+      },
+    ],
   },
   {
-    category: "Invoice Generator",
-    title: "brutallbill.com",
-    excerpt:
+    name: "brutallbill.com",
+    description:
       "A professional invoice generator that is completely free — build, send and manage invoices without any cost.",
-    meta: "React · Node.js · PDF",
-    href: "https://brutallbill.com",
-    image: project2,
-    width: 800,
-    height: 600,
+    tech: ["React", "Node.js", "PDF", "MongoDB"],
+    live: "https://brutallbill.com",
+    github: "https://github.com/ahsanbashir",
+    images: [
+      {
+        src: project2,
+        alt: "brutallbill.com — invoice editor",
+        width: 800,
+        height: 600,
+      },
+      {
+        src: projectLead,
+        alt: "brutallbill.com — invoice preview",
+        width: 1200,
+        height: 800,
+      },
+      {
+        src: project4,
+        alt: "brutallbill.com — invoice list",
+        width: 800,
+        height: 600,
+      },
+    ],
   },
 ];
 
