@@ -1,57 +1,25 @@
-import { useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
-import { PERSON, PROJECTS } from "../data";
+import { Link } from "@tanstack/react-router";
+import { PROJECTS } from "../data";
 import { fadeUp, stagger, viewportOnce } from "../motion";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 import { useProjectsQuery } from "@/hooks/useProjects";
-import type { DbProject } from "@/lib/supabase/types";
-import { ProjectCard } from "./ProjectCard";
-import { Lightbox } from "./Lightbox";
+import { ProjectsGrid } from "./ProjectsGrid";
+import { toUiProject } from "./toUiProject";
 import type { Project } from "./types";
 
 type ProjectsProps = {
   projects?: Project[];
 };
 
-function toUiProject(db: DbProject): Project {
-  const project: Project = {
-    name: db.title,
-    description: db.description,
-    tech: db.tech_stack,
-    featured: db.featured,
-    images: db.images.map((src) => ({ src, alt: db.title, width: 1600, height: 900 })),
-  };
-  if (db.live_demo_url) project.live = db.live_demo_url;
-  if (db.github_url) project.github = db.github_url;
-  return project;
-}
-
-function CardSkeleton() {
-  return (
-    <div className="animate-pulse overflow-hidden rounded-2xl border border-border bg-card shadow-paper">
-      <div className="aspect-[16/10] bg-muted" />
-      <div className="space-y-3 p-6">
-        <div className="h-6 w-2/3 rounded bg-muted" />
-        <div className="h-3 w-full rounded bg-muted" />
-        <div className="h-3 w-4/5 rounded bg-muted" />
-        <div className="flex gap-2 pt-2">
-          <div className="h-5 w-16 rounded-full bg-muted" />
-          <div className="h-5 w-16 rounded-full bg-muted" />
-          <div className="h-5 w-16 rounded-full bg-muted" />
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export function Projects({ projects: staticProjects = PROJECTS }: ProjectsProps) {
   const { data, isLoading } = useProjectsQuery();
-  const [active, setActive] = useState<{ project: Project; index: number } | null>(null);
 
   const dbProjects = (data ?? []).map(toUiProject);
   const useLiveData = isSupabaseConfigured && dbProjects.length > 0;
   const projects = useLiveData ? dbProjects : staticProjects;
+  const hasMore = projects.length > 4;
 
   return (
     <section
@@ -90,47 +58,23 @@ export function Projects({ projects: staticProjects = PROJECTS }: ProjectsProps)
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-          {isLoading && isSupabaseConfigured
-            ? Array.from({ length: 4 }).map((_, i) => <CardSkeleton key={i} />)
-            : projects
-                .slice(0, 4)
-                .map((project) => (
-                  <ProjectCard
-                    key={project.name}
-                    project={project}
-                    onImageClick={(imageIndex) => setActive({ project, index: imageIndex })}
-                  />
-                ))}
-        </div>
+        <ProjectsGrid
+          projects={projects.slice(0, 4)}
+          isLoading={isLoading && isSupabaseConfigured}
+        />
 
-        {!isLoading && projects.length > 4 && (
+        {!isLoading && hasMore && (
           <motion.div variants={fadeUp} className="mt-12 flex justify-center">
-            <a
-              href={PERSON.github}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/projects"
               className="inline-flex items-center gap-2 rounded-full border border-ink bg-ink px-7 py-3 text-sm font-semibold text-paper transition-colors duration-300 hover:border-primary hover:bg-primary"
             >
               View all projects
               <ArrowRight className="size-4" />
-            </a>
+            </Link>
           </motion.div>
         )}
       </motion.div>
-
-      <AnimatePresence>
-        {active && (
-          <Lightbox
-            project={active.project}
-            index={active.index}
-            onClose={() => setActive(null)}
-            onNavigate={(imageIndex) =>
-              setActive((current) => (current ? { ...current, index: imageIndex } : current))
-            }
-          />
-        )}
-      </AnimatePresence>
     </section>
   );
 }

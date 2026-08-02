@@ -29,18 +29,19 @@ export function Masthead() {
       />
       <div className="mx-auto max-w-6xl px-5">
         <nav aria-label="Sections" className="flex items-center gap-x-6 py-3">
-          <a href="#top" className="mr-auto flex items-center">
+          <Link to="/" className="mr-auto flex items-center" aria-label="Go to homepage">
             <Logo className="size-8 shrink-0" />
-          </a>
+          </Link>
           <ul className="hidden flex-wrap items-center justify-center gap-x-6 md:flex">
             {NAV.map((item) => (
               <li key={item.href}>
-                <a
-                  href={item.href}
+                <Link
+                  to="/"
+                  hash={item.href.slice(1)}
                   className="eyebrow link-underline text-ink transition-colors hover:text-primary"
                 >
                   {item.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -79,13 +80,14 @@ export function Masthead() {
             <ul className="mx-auto max-w-6xl space-y-1 px-5 py-4">
               {NAV.map((item) => (
                 <li key={item.href}>
-                  <a
-                    href={item.href}
+                  <Link
+                    to="/"
+                    hash={item.href.slice(1)}
                     onClick={() => setMenuOpen(false)}
                     className="eyebrow block border-b border-border py-3 text-ink transition-colors hover:text-primary"
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
