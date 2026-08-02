@@ -12,6 +12,13 @@ insert into storage.buckets (id, name, public)
 values ('projects', 'projects', true)
 on conflict (id) do nothing;
 
+-- 1b) If the bucket already exists (e.g. created from the dashboard), make it
+-- public so images load on the site and in the admin form. Re-running this
+-- script is safe.
+update storage.buckets
+set public = true
+where id = 'projects';
+
 -- 2) Allow the authenticated admin to upload / update / delete images
 drop policy if exists "Authenticated users can upload project images" on storage.objects;
 create policy "Authenticated users can upload project images"
