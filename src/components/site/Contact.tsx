@@ -4,6 +4,7 @@ import { Mail, Linkedin, MapPin, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 import { PERSON } from "./data";
 import { sendContactEmail, type ContactPayload } from "@/lib/send-contact-email";
+import qrCode from "@/assets/qrcode.png";
 import { Logo } from "./Logo";
 import { fadeUp, stagger, viewportOnce } from "./motion";
 
@@ -143,6 +144,22 @@ export function Contact() {
           </motion.form>
 
           <motion.div variants={fadeUp} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+            <a
+              href={`https://wa.me/${PERSON.whatsapp}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col items-center gap-3 border border-ink bg-card p-4 text-center transition-[transform,border-color,box-shadow] duration-250 hover:-translate-y-1 hover:border-ink hover:shadow-paper"
+            >
+              <span className="eyebrow text-primary">Scan to connect</span>
+              <img
+                src={qrCode}
+                alt={`${PERSON.name} WhatsApp QR code`}
+                width={267}
+                height={264}
+                className="size-40 border border-border bg-paper object-contain p-1"
+              />
+              <span className="wrap-break-words text-[15px]">WhatsApp — {PERSON.phone}</span>
+            </a>
             {LISTINGS.map((l) => (
               <a
                 key={l.label}
