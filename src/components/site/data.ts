@@ -15,6 +15,7 @@ export const PERSON = {
   whatsapp: "923276227156",
   linkedin: "https://www.linkedin.com/in/ahsan-bashir",
   github: "https://github.com/ahsanbashir",
+  resume: "/Ahsan M.Bashir Resume.pdf",
   since: 2023,
   experience: "2+ Years",
 };

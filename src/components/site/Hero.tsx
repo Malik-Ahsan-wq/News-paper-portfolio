@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { Download } from "lucide-react";
 import { PERSON, STATS, heroPortrait } from "./data";
 import { fadeUp, stagger } from "./motion";
 import { useTypewriter } from "./useTypewriter";
@@ -61,6 +62,14 @@ export function Hero() {
             </a>
             <a href="#contact" className="eyebrow link-underline text-primary">
               Hire me →
+            </a>
+            <a
+              href={PERSON.resume}
+              download
+              className="eyebrow inline-flex items-center gap-2 border border-primary px-6 py-3 text-primary transition-colors hover:bg-primary hover:text-paper"
+            >
+              <Download className="size-4" />
+              Download Resume
             </a>
           </motion.div>
         </div>

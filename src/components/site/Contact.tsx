@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { motion } from "motion/react";
-import { Mail, Linkedin, MapPin, MessageCircle } from "lucide-react";
+import { Mail, Linkedin, MapPin, MessageCircle, Download } from "lucide-react";
 import { toast } from "sonner";
 import { PERSON } from "./data";
 import { sendContactEmail, type ContactPayload } from "@/lib/send-contact-email";
@@ -187,9 +187,19 @@ export function Contact() {
               {PERSON.paper} © 2026 — All Rights Reserved
             </p>
           </div>
-          <p className="text-[13px] italic text-muted-foreground">
-            Printed on the open web, in {PERSON.city}.
-          </p>
+          <div className="flex items-center gap-4">
+            <a
+              href={PERSON.resume}
+              download
+              className="eyebrow inline-flex items-center gap-1.5 border border-ink px-4 py-2 text-ink transition-colors hover:border-primary hover:bg-primary hover:text-paper"
+            >
+              <Download className="size-3.5" />
+              Resume
+            </a>
+            <p className="text-[13px] italic text-muted-foreground">
+              Printed on the open web, in {PERSON.city}.
+            </p>
+          </div>
         </div>
         <div className="h-0.75 bg-ink" />
         <div className="mt-0.75 h-px bg-ink" />
