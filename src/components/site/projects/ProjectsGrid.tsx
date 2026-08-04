@@ -38,7 +38,7 @@ export function ProjectsGrid({ projects, isLoading = false }: ProjectsGridProps)
         initial="hidden"
         whileInView="show"
         viewport={viewportOnce}
-        className="grid grid-cols-1 gap-8 sm:grid-cols-2"
+        className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:auto-rows-fr"
       >
         {isLoading
           ? Array.from({ length: 4 }).map((_, i) => <CardSkeleton key={i} />)

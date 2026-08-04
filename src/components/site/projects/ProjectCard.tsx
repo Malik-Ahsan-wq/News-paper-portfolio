@@ -32,7 +32,7 @@ export function ProjectCard({ project, onImageClick }: ProjectCardProps) {
               </span>
             )}
           </div>
-          <p className="mt-3 text-[15px] leading-relaxed text-ink-soft">{project.description}</p>
+          <p className="mt-3 text-[15px] leading-relaxed text-ink-soft line-clamp-3">{project.description}</p>
         </div>
 
         <ul className="flex flex-wrap gap-2">

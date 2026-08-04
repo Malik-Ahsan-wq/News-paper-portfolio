@@ -25,8 +25,6 @@ export function ImagePreview({ project, onImageClick }: ImagePreviewProps) {
         <img
           src={hero.src}
           alt={hero.alt}
-          width={hero.width}
-          height={hero.height}
           loading="eager"
           decoding="async"
           className="size-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/img:scale-[1.05]"
