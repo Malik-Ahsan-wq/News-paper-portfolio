@@ -129,7 +129,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         src: "https://fetchply.com/widget.js?v=0.1.0",
         defer: true,
-        "data-chatbot-id": "d32bb410-23c1-46c7-a81b-10b6a7b3272d",
+        "data-chatbot-id": "6843e623-78ce-40bc-a283-64594e69e7f8",
       },
     ],
   }),
